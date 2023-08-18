@@ -18,6 +18,7 @@ class ServerSomthing extends Thread {
         out = new BufferedWriter(new OutputStreamWriter(socket.getOutputStream()));
         start();
     }
+
     @Override
     public void run() {
         String word;
@@ -26,16 +27,13 @@ class ServerSomthing extends Thread {
             while (true) {
                 word = in.readLine();
                 System.out.println(word);
-                if(word.equals("stop")) {
-                    break;
-                }
-
                 for (ServerSomthing vr : Server.serverList) {
                     vr.send(word);
                 }
             }
 
-        } catch (IOException e) {
+        } catch (Exception e) {
+            this.downService();
         }
     }
 
@@ -45,6 +43,24 @@ class ServerSomthing extends Thread {
             out.flush();
         } catch (IOException ignored) {}
     }
+
+    private void downService() {
+        try {
+            if(!socket.isClosed()) {
+                socket.close();
+                in.close();
+                out.close();
+                for (ServerSomthing vr : Server.serverList) {
+                    if(vr.equals(this)) vr.interrupt();
+                    Server.serverList.remove(this);
+                }
+                System.out.println("соединение разорвано \n");
+            }
+        } catch (IOException ignored)
+        {
+        }
+    }
+
 }
 
 
