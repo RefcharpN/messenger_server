@@ -12,6 +12,7 @@ class ServerSomthing extends Thread {
     private BufferedWriter out;
 
     public ServerSomthing(Socket socket) throws IOException {
+        System.out.println("новое соединение");
         this.socket = socket;
         in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
         out = new BufferedWriter(new OutputStreamWriter(socket.getOutputStream()));
@@ -24,8 +25,11 @@ class ServerSomthing extends Thread {
 
             while (true) {
                 word = in.readLine();
+                System.out.println(word);
                 if(word.equals("stop")) {
-                    break;                }
+                    break;
+                }
+
                 for (ServerSomthing vr : Server.serverList) {
                     vr.send(word);
                 }
@@ -46,7 +50,7 @@ class ServerSomthing extends Thread {
 
 public class Server {
 
-    public static final int PORT = 8080;
+    public static final int PORT = 2517;
     public static LinkedList<ServerSomthing> serverList = new LinkedList<>();
 
     public static void main(String[] args) throws IOException {
