@@ -5,13 +5,13 @@ import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.LinkedList;
 
-class ServerSomthing extends Thread {
+class ClientConnection extends Thread {
 
     private Socket socket;
     private BufferedReader in;
     private BufferedWriter out;
 
-    public ServerSomthing(Socket socket) throws IOException {
+    public ClientConnection(Socket socket) throws IOException {
         System.out.println("новое соединение");
         this.socket = socket;
         in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
@@ -26,8 +26,14 @@ class ServerSomthing extends Thread {
 
             while (true) {
                 word = in.readLine();
+                if(word.isEmpty())
+                {
+                    downService();
+                    break;
+                }
                 System.out.println(word);
-                for (ServerSomthing vr : Server.serverList) {
+                for (ClientConnection vr : Server.serverList) {
+                    if(vr.equals(this)) continue;
                     vr.send(word);
                 }
             }
@@ -50,7 +56,7 @@ class ServerSomthing extends Thread {
                 socket.close();
                 in.close();
                 out.close();
-                for (ServerSomthing vr : Server.serverList) {
+                for (ClientConnection vr : Server.serverList) {
                     if(vr.equals(this)) vr.interrupt();
                     Server.serverList.remove(this);
                 }
@@ -67,7 +73,7 @@ class ServerSomthing extends Thread {
 public class Server {
 
     public static final int PORT = 2517;
-    public static LinkedList<ServerSomthing> serverList = new LinkedList<>();
+    public static LinkedList<ClientConnection> serverList = new LinkedList<>();
 
     public static void main(String[] args) throws IOException {
         ServerSocket server = new ServerSocket(PORT);
@@ -75,7 +81,7 @@ public class Server {
             while (true) {
                 Socket socket = server.accept();
                 try {
-                    serverList.add(new ServerSomthing(socket));
+                    serverList.add(new ClientConnection(socket));
                 } catch (IOException e) {
                     socket.close();
                 }
