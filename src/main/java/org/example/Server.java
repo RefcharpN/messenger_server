@@ -72,7 +72,7 @@ class ClientConnection extends Thread {
 
 public class Server {
 
-    public static final int PORT = 2517;
+    public static final int PORT = 4013;
     public static LinkedList<ClientConnection> serverList = new LinkedList<>();
 
     public static void main(String[] args) throws IOException {
