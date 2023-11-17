@@ -42,7 +42,6 @@ class ClientConnection extends Thread {
         {
             String connect = in.readLine();
 
-            connect = in.readLine();
             if(connect.isEmpty())
             {
                 downService();
@@ -56,12 +55,19 @@ class ClientConnection extends Thread {
             var out_result = this.oper.processing(json.getString("OPERATION"));
             this.send(out_result);
 
-            JSONObject json_check = new JSONObject(out_result);
-            if(json_check.getString("EXIST").equals("1"))
-            {
-                System.out.println("пользователь подтверждён");
-                break;
+            try {
+                JSONObject json_check = new JSONObject(out_result);
+                if(json_check.getString("EXIST").equals("1"))
+                {
+                    System.out.println("пользователь подтверждён");
+                    break;
+                }
             }
+            catch (Exception e)
+            {
+                System.out.println("error");
+            }
+
 
         }
 
