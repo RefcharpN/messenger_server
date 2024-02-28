@@ -1,13 +1,14 @@
 <component name="ArtifactManager">
-  <artifact name="messenger_server:jar">
+  <artifact type="jar" name="messenger_server:jar">
     <output-path>$PROJECT_DIR$/out/artifacts/messenger_server_jar</output-path>
-    <root id="root">
-      <element id="archive" name="messenger_server.jar">
-        <element id="directory" name="META-INF">
-          <element id="file-copy" path="$PROJECT_DIR$/META-INF/MANIFEST.MF" />
-        </element>
-        <element id="module-output" name="messenger_server" />
+    <root id="archive" name="messenger_server.jar">
+      <element id="directory" name="META-INF">
+        <element id="file-copy" path="$PROJECT_DIR$/META-INF/MANIFEST.MF" />
       </element>
+      <element id="module-output" name="messenger_server" />
+      <element id="extracted-dir" path="$PROJECT_DIR$/postgresql-42.6.0.jar" path-in-jar="/" />
+      <element id="extracted-dir" path="$MAVEN_REPOSITORY$/commons-codec/commons-codec/1.13/commons-codec-1.13.jar" path-in-jar="/" />
+      <element id="extracted-dir" path="$MAVEN_REPOSITORY$/org/json/json/20231013/json-20231013.jar" path-in-jar="/" />
     </root>
   </artifact>
 </component>
