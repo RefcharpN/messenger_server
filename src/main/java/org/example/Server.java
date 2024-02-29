@@ -51,7 +51,7 @@ class ClientConnection extends Thread {
 
             JSONObject json = new JSONObject(connect);
             System.out.println(json);
-            this.oper = new Operations_List("localhost","2517Pass", json);
+            this.oper = new Operations_List("localhost","2517Pass!Ab0ba", json);
             var out_result = this.oper.processing(json.getString("OPERATION"));
             this.send(out_result);
 
