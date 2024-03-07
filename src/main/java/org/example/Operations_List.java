@@ -96,14 +96,6 @@ public class Operations_List {
 
 
         System.out.println("проверка логина");
-//        String query_login = String.format("SELECT (log.UserPassword = crypt('%s', log.UserPassword)) \n" +
-//                "\n" +
-//                "    AS password_match \n" +
-//                "\n" +
-//                "FROM messanger.login_users  as log\n" +
-//                "\n" +
-//                "WHERE UserLogin = '%s' ;", json.getString("PASSWORD"), json.getString("LOGIN"));
-
         String query_login = String.format("SELECT (log.UserPassword = messanger.crypt('%s', log.UserPassword)) \n" +
                 "\n" +
                 "    AS password_match \n" +
